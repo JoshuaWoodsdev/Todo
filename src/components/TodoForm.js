@@ -1,32 +1,38 @@
 import React, { useState } from 'react';
-import useTodoStore from '../store/store'; 
+import useTodoStore from '/store'; // Update the path accordingly
 
-const TodoForm = () => {
+function TodoForm() {
   const [text, setText] = useState('');
 
-  const handleAddTodo = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    
     if (text.trim() !== '') {
       const newTodo = {
         id: Date.now(),
         text: text,
         completed: false,
       };
+
       useTodoStore.getState().addTodo(newTodo);
       setText('');
     }
   };
-  
+
+  const handleChange = (event) => {
+    setText(event.target.value);
+  };
+
   return (
-    <div>
-      <input
-        type="text"
-        placeholder="Add a new todo..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      />
-      <button onClick={handleAddTodo}>Add Todo</button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" value={text} onChange={handleChange} />
+      <button type="submit">Add Todo</button>
+    </form>
   );
-};
+}
 
 export default TodoForm;
+
+
+
+

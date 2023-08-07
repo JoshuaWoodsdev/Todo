@@ -1,24 +1,23 @@
-import React from 'react';
-import useTodoStore from '../store/store'; 
+import React from "react";
+import useTodoStore from "/store";
 
-const TodoList = () => {
+function TodoList() {
   const todos = useTodoStore((state) => state.todos);
+
+  const handleDeleteTodo = (id) => {
+    useTodoStore.getState().removeTodo(id);
+  };
 
   return (
     <ul>
       {todos.map((todo) => (
         <li key={todo.id}>
-          <input
-            type="checkbox"
-            checked={todo.completed}
-            onChange={() => useTodoStore.toggleTodo(todo.id)}
-          />
           <span>{todo.text}</span>
-          <button onClick={() => useTodoStore.removeTodo(todo.id)}>Delete</button>
+          <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
         </li>
       ))}
     </ul>
   );
-};
+}
 
 export default TodoList;
